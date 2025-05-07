@@ -16,21 +16,17 @@ export default {
             this.goTo(`/${this.entity.route}/create`);
         },
         onNext() {
-            this.currentPage =
-                this.currentPage >= this.entity.page.last_page
-                    ? this.entity.page.last_page - 1
-                    : this.currentPage;
-
-            this.goTo({
-                path: `/${this.entity.route}`,
-                query: { page: (this.currentPage += 1) },
-            });
+            this.currentPage = this.entity.page.current_page;
+            console.log("his.entity.route", this.entity.route);
+            console.log("this.entity.page.search", this.entity.page.search);
+            this.goTo(this.entity.page.next_page_url);
         },
         onPrev() {
             this.currentPage = this.currentPage <= 0 ? 2 : this.currentPage;
             this.goTo({
-                path: `/${this.entity.route}`,
+                path: this.entity.route,
                 query: { page: (this.currentPage -= 1) },
+                search: this.entity.page.search,
             });
         },
         onEdit(data) {
@@ -80,11 +76,44 @@ export default {
                     this.loading = false;
                 });
         },
-        fetchPage() {
-            this.loading = true;
+
+        onCloselot(data) {
+            this.sendCloseRequest(data);
+        },
+        sendCloseRequest(data) {
+            let lotNumb = data.result.lotNumber;
+            // console.log(data.result.lotNumber);
             axios({
                 method: "GET",
-                url: `/api/${this.entity.route}`,
+                url: `${this.url}/announcement/close-lot/${lotNumb}`,
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${this.getUserToken()}`,
+                },
+            })
+                .then((response) => {
+                    this.fetchPage();
+                })
+                .catch((error) => {
+                    console.log(error);
+                    if (error.response.status === 401) {
+                        this.eraseUserData();
+                        this.goTo("/login");
+                    }
+                })
+                .then((_) => {
+                    this.loading = false;
+                });
+        },
+
+        fetchPage() {
+            this.loading = true;
+            console.log("this.$route.query.page", this.$route.query.page);
+            console.log("this.$route.query.search", this.$route.query.search);
+
+            axios({
+                method: "GET",
+                url: `${this.url}/announcement/verify-results`,
                 params: {
                     page: this.$route.query.page,
                     search: this.$route.query.search,
@@ -95,7 +124,8 @@ export default {
                 },
             })
                 .then((response) => {
-                    console.log(response.data);
+                    // console.log(response.data.data[0].result);
+                    // console.log("from loto", response.data.current_page);
                     this.entity.page = response.data;
                     this.currentPage = response.data.current_page;
                 })

@@ -21,6 +21,7 @@
   "Delete": "Өшіру",
   "Create": "Сақтау",
   "Update": "Түзеу",
+  "Are you sure you want to close this lot":"Сіз бұл лот номерін жабуға сенімдісіз бе",
   "You are deleting an item from": "Сіз келесіден жазбаны өшіргелі жатсыз",
   "This will delete all it's child entries as well if there are. Are you sure": "Бұлай оның барлық табылған туынды жазбалары да өшеді. Сіз сенімдісіз бе",
   "Invalid data provided": "Форма дұрыс толтырылмаған",
@@ -43,6 +44,18 @@
   "Procurement number": "Конкурс номеры",
   "Numbers": "Номерлер",
   "Number": "Номер",
+  "ExecutedLot": "Өткізілген Лоттар",
+  "Text": "Текст",
+  "LabWorkAmount": "Зерт. жұмыс көлемі",
+  "ProjectAmount": "Жоба көлемі",
+  "Modified at": "Өзгертілді",
+  "Complete": "Аяқтау",
+  "Comment": "Пікір",
+  "true":"дұрыс",
+  "false":"қате",
+
+
+  
   "Created at": "Сақталған күні",
   "Partner Edit Form": "Партнерды Түзеу Формасы",
   "Partner Create Form": "Партнерды Қосу Формасы",

@@ -6,12 +6,6 @@
         <div
             class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 mb-2"
         >
-            <button
-                class="btn btn-sm btn-light"
-                @click="$emit('new-entity', entity.route)"
-            >
-                {{ $t("Add New") }}
-            </button>
             <search-form @on-search="onSearch" />
             <div
                 class="d-flex flex-row align-items-center gap-2"
@@ -66,37 +60,67 @@
                 <tbody>
                     <tr v-for="(data, i) in entity.page.data" :key="i">
                         <td class="fw-bold font-monospace">
-                            {{ getId(data, i) }}
+                            {{ getId(i) }}
                         </td>
-                        <td v-for="(fillable, j) in entity.fillables" :key="j">
+                        <td
+                            v-for="(fillable, j) in entity.fillables"
+                            :key="j"
+                            :class="{
+                                'table-success':
+                                    data.result[fillable.name] === true ||
+                                    (fillable.name === 'comment' &&
+                                        data.result.comment
+                                            .toLowerCase()
+                                            .includes('ok')),
+                                'table-danger':
+                                    data.result[fillable.name] === false ||
+                                    (fillable.name === 'comment' &&
+                                        !data.result.comment
+                                            .toLowerCase()
+                                            .includes('ok')),
+                            }"
+                        >
                             <span
                                 v-if="
                                     fillable.hasOwnProperty('raw') &&
                                     fillable.data === 'raw'
                                 "
-                                :class="callFunction('class', fillable, data)"
-                                v-html="fillable.raw(data, i)"
+                                :class="
+                                    callFunction('class', fillable, data.result)
+                                "
+                                v-html="fillable.raw(data.result, i)"
                             >
                             </span>
                             <template v-else>
-                                {{ data[fillable.name] }}
+                                <!-- {{ fillable.name }} - -->
+
+                                {{
+                                    typeof data.result[fillable.name] ===
+                                    "boolean"
+                                        ? data.result[fillable.name]
+                                            ? $t("true")
+                                            : $t("false")
+                                        : data.result[fillable.name]
+                                }}
+
+                                <span
+                                    v-if="fillable.name === 'partnerName'"
+                                    v-html="data[fillable.name]"
+                                >
+                                </span>
                             </template>
                         </td>
                         <td>
                             <a
                                 class="btn btn-light btn-sm"
-                                @click="$emit('on-edit', data)"
-                                >{{ $t("Edit") }}</a
-                            >
-                            <a
-                                class="btn btn-light btn-sm mx-2 text-danger"
-                                @click="onDelete(data)"
-                                >{{ $t("Delete") }}</a
+                                @click="onCloselot(data)"
+                                >{{ $t("Complete") }}</a
                             >
                         </td>
                     </tr>
                 </tbody>
             </table>
+
             <p v-else-if="loading">{{ $t("Loading data") }}...</p>
             <h6 v-else>
                 <i>{{ $t("No entries") }}</i>
@@ -110,7 +134,7 @@ import SearchForm from "./SearchForm.vue";
 import common from "@/mixins/common";
 
 export default {
-    name: "Table",
+    name: "TableExecutedLot",
     mixins: [common],
     props: {
         title: String,
@@ -124,11 +148,17 @@ export default {
         SearchForm,
     },
     methods: {
-        getId(data, i) {
-            const id = this.entity.withIndex
-                ? i + this.entity.page.from
-                : data.id;
-            return id.toString().padStart(this.entity.pad, "0");
+        getId(index) {
+            return (this.entity.page.from + index)
+                .toString()
+                .padStart(this.entity.pad, "0");
+        },
+
+        goToDetail(lotNumber) {
+            this.$router.push({
+                name: "number.show",
+                params: { lotNumber: lotNumber },
+            });
         },
         hasPrevPage() {
             return this.entity.page.prev_page_url !== null;
@@ -152,6 +182,15 @@ export default {
                 this.$emit("on-delete", data);
             }
         },
+        onCloselot(data) {
+            if (
+                confirm(
+                    `${this.$t("Are you sure you want to close this lot")}?`
+                )
+            ) {
+                this.$emit("on-closelot", data);
+            }
+        },
         getPagination() {
             return parseInt(import.meta.env.VITE_PAGINATION_SIZE);
         },
@@ -164,3 +203,40 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+h3.mx-auto {
+    margin: 0 auto;
+}
+.container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.table-container {
+    width: auto;
+}
+
+.table-responsive {
+    border: 1px solid #dee2e6;
+}
+
+.table-success {
+    background-color: #d4edda !important;
+}
+
+.table-danger {
+    background-color: #f8d7da !important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+</style>

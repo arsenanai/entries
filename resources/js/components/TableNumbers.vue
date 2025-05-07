@@ -61,6 +61,7 @@
                         <th scope="col">
                             {{ $t("Actions") }}
                         </th>
+                        <th scope="col">Толығырақ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -94,6 +95,13 @@
                                 >{{ $t("Delete") }}</a
                             >
                         </td>
+                        <td>
+                            <a
+                                class="btn btn-light btn-sm"
+                                @click="goToDetail(data.lotNumber)"
+                                >Көру</a
+                            >
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -110,7 +118,7 @@ import SearchForm from "./SearchForm.vue";
 import common from "@/mixins/common";
 
 export default {
-    name: "Table",
+    name: "TableNumbers",
     mixins: [common],
     props: {
         title: String,
@@ -129,6 +137,13 @@ export default {
                 ? i + this.entity.page.from
                 : data.id;
             return id.toString().padStart(this.entity.pad, "0");
+        },
+
+        goToDetail(lotNumber) {
+            this.$router.push({
+                name: "number.show",
+                params: { lotNumber: lotNumber },
+            });
         },
         hasPrevPage() {
             return this.entity.page.prev_page_url !== null;

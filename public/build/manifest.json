@@ -62,7 +62,7 @@
     "src": "resources/images/language.png"
   },
   "resources/js/app.css": {
-    "file": "assets/app-9557ef0e.css",
+    "file": "assets/app-ae1723e1.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
@@ -70,18 +70,18 @@
       "assets/language-18db373e.png"
     ],
     "css": [
-      "assets/app-9557ef0e.css"
+      "assets/app-ae1723e1.css"
     ],
-    "file": "assets/app-e849ad1e.js",
+    "file": "assets/app-5a88cd18.js",
     "imports": [
       "_vue-e72decd8.js",
       "_@vue-a8c8ab0e.js",
       "_vue-router-c61dbbab.js",
+      "_axios-760d4776.js",
       "_qrcode-vue3-cb0cbdc5.js",
       "_lodash-b55dff9f.js",
       "_@popperjs-8746c87e.js",
       "_bootstrap-f7626649.js",
-      "_axios-760d4776.js",
       "_vue-i18n-bcc90ef9.js",
       "_@intlify-709a1feb.js",
       "_source-map-7d7e1c08.js"
