@@ -11,9 +11,8 @@ class SubpartnerFactory extends Factory
 
     public function definition(): array
     {
-        return [
-            'name' => $this->faker->name . ' testing',
-            'bin' => $this->faker->unique()->numberBetween(111111111111, 999999999999)
-        ];
+    	return [
+    	    'name' => $this->faker->name . ' testing',
+    	];
     }
 }

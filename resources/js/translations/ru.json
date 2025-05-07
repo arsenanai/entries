@@ -60,16 +60,5 @@
   "No entries": "Нет данных",
   "The lot number has already been taken.": "Такой номер лота уже используется.",
   "QR Code": "QR код",
-  "Click to generate QR Code": "Нажмите чтобы скачать QR код",
-  "ExecutedLot": "Состоявшийся Лоты",
-  "Text": "Текст",
-  "LabWorkAmount": "Кол-во лаб. работ",
-  "ProjectAmount": "Кол-во проектов",
-  "Modified at": "Изменен",
-  "Complete": "Завершить",
-  "Comment": "Комментарий",
-  "true":"верно",
-  "false":"ошибка"
-
-
+  "Click to generate QR Code": "Нажмите чтобы скачать QR код"
 }

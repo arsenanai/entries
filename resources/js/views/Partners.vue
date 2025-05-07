@@ -38,13 +38,7 @@ export default {
                         label: this.$t('Created at'),
                         data: 'raw',
                         raw: data => data.created_at.replaceAll('T', ' ').substring(0,16),
-                    },
-                    {
-                        label: this.$t('BIN'),
-                        name: 'bin',
-                        classes: 'col-4 col-sm-6 col-lg-8',
-                        dataClasses: 'py-1 text-truncate',
-                    },
+                    }
                 ],
                 page: null,
             },
